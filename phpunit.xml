@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true">
+    <coverage>
+        <filter>
+            <!-- Tentukan direktori sumber kode Anda -->
+            <whitelist>
+                <directory suffix=".php">src</directory>
+            </whitelist>
+        </filter>
+    </coverage>
+
     <testsuites>
         <testsuite name="Default">
             <directory>tests</directory>
