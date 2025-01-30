@@ -13,36 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Langkah 1: Checkout kode dari repository
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Langkah 2: Setup PHP
+      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'  # Gunakan versi PHP Anda
+          php-version: '8.2'
           extensions: xdebug
           tools: composer
 
-      # Langkah 3: Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: |
           composer clear-cache
           composer install --no-progress --no-suggest
+          chmod +x vendor/bin/phpunit  # Memberikan izin eksekusi
 
-      # Langkah 4: Jalankan PHPUnit
+      # Jalankan PHPUnit
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --coverage-text
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Deploy ke server (opsional)
-      - name: Deploy to server
-        run: echo "Deployment step goes here"
