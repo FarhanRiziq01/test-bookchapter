@@ -1,0 +1,45 @@
+name: PHP CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout kode dari repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1' # Sesuaikan versi PHP
+          extensions: xdebug
+
+      # Install PHPUnit
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+
+      # Jalankan Unit Tests
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --coverage-text
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Deploy ke server (opsional, jika sudah memiliki server)
+      - name: Deploy to server
+        run: echo "Deployment step goes here"
